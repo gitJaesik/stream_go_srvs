@@ -1,0 +1,94 @@
+version: '3.1'
+
+services:
+  stream-api-server:
+    image: gitjaesik/stream-api-server
+    ports:
+      - "8080:8080"
+    networks:
+      - stream_network
+    hostname: stream-api-server
+    environment:
+      - STREAMGOLIB_MONGODB_URI=mongodb://mongo:27017
+      - ASRLOGGO_FILE_SERVER_IP=stream-file-server
+      - STREAMGOLIB_ACCESS_PRIVATE_PEM=/usr/local/bin/access_refresh/access-private.pem
+      - STREAMGOLIB_ACCESS_PUBLIC_PEM=/usr/local/bin/access_refresh/access-public.pem
+      - STREAMGOLIB_REFRESH_PRIVATE_PEM=/usr/local/bin/access_refresh/refresh-private.pem
+      - STREAMGOLIB_REFRESH_PUBLICP_PEM=/usr/local/bin/access_refresh/refresh-public.pem
+      - STREAMGOLIB_LOG_FILENAME=/log/app-%Y-%m-%H.log
+      - STREAMGOLIB_LOG_FILENAME_LINK=/log/app.log
+      - STREAMGOLIB_LOG_USE_FILELOG=y
+      - AFSG_HTTP_FILE_SERVER_STORAGE_PAGE_ROOT=/storage
+      - ASRLOGGO_PY_VAD_IP=stream-py-vad
+      - ASRLOGGO_PY_VAD_GRPC_ROOT=8380
+    depends_on:
+      - mongo
+
+  stream-file-server:
+    image: gitjaesik/stream-file-server
+    volumes:
+      - stream_file_vol:/storage
+    ports:
+      - "8180:8180"
+      - "2020:2020"
+    networks:
+      - stream_network
+    hostname: stream-file-server
+    environment:
+      - STREAMGOLIB_MONGODB_URI=mongodb://mongo:27017
+      - AFSG_HTTP_FILE_SERVER_STORAGE_PAGE_ROOT=/storage
+    depends_on:
+      - mongo
+
+  stream-auth-server:
+    image: gitjaesik/stream-auth-server
+    ports:
+      - "8280:8280"
+    networks:
+      - stream_network
+    hostname: stream-auth-server
+    environment:
+      - STREAMGOLIB_MONGODB_URI=mongodb://mongo:27017
+      - STREAMGOLIB_CERT_FILE=/usr/local/bin/x509_cloud/server_cert.pem
+      - STREAMGOLIB_KEY_FILE=/usr/local/bin/x509_cloud/server_key.pem
+      - STREAMGOLIB_ACCESS_PRIVATE_PEM=/usr/local/bin/access_refresh/access-private.pem
+      - STREAMGOLIB_ACCESS_PUBLIC_PEM=/usr/local/bin/access_refresh/access-public.pem
+      - STREAMGOLIB_REFRESH_PRIVATE_PEM=/usr/local/bin/access_refresh/refresh-private.pem
+      - STREAMGOLIB_REFRESH_PUBLICP_PEM=/usr/local/bin/access_refresh/refresh-public.pem
+      - STREAMGOLIB_LOG_FILENAME=/log/app-%Y-%m-%H.log
+      - STREAMGOLIB_LOG_FILENAME_LINK=/log/app.log
+      - STREAMGOLIB_LOG_USE_FILELOG=y
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    volumes:
+      - stream_vol:/docker-entrypoint-initdb.d/
+      - stream_vol:/data/db
+      - stream_vol:/var/log/mongodb/
+    ports:
+      - "27017:27017"
+    networks:
+      - stream_network
+    hostname: mongo
+
+  stream-py-vad:
+    image: gitjaesik/stream-py-vad
+    ports:
+      - "8380:8380"
+    networks:
+      - stream_network
+    hostname: stream-py-vad
+
+volumes:
+  stream_vol:
+    driver: local
+  stream_file_vol:
+    driver: local
+
+networks:
+  stream_network:
+    external: true
+
+
