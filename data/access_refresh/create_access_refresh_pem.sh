@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# ref
+# https://github.com/d-vignesh/go-jwt-auth/blob/master/notes.txt
+
+# Generate rsa private key :
+openssl genrsa -out access-private.pem 2048
+openssl genrsa -out refresh-private.pem 2048
+
+# Export rsa public key :
+openssl rsa -in access-private.pem -outform PEM -pubout -out access-public.pem
+openssl rsa -in refresh-private.pem -outform PEM -pubout -out refresh-public.pem
