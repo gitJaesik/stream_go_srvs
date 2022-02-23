@@ -10,7 +10,7 @@ services:
     hostname: stream-api-server
     environment:
       - STREAMGOLIB_MONGODB_URI=mongodb://mongo:27017
-      - ASRLOGGO_FILE_SERVER_IP=stream-file-server
+      - STREAMLOGGO_FILE_SERVER_IP=stream-file-server
       - STREAMGOLIB_ACCESS_PRIVATE_PEM=/usr/local/bin/access_refresh/access-private.pem
       - STREAMGOLIB_ACCESS_PUBLIC_PEM=/usr/local/bin/access_refresh/access-public.pem
       - STREAMGOLIB_REFRESH_PRIVATE_PEM=/usr/local/bin/access_refresh/refresh-private.pem
@@ -19,8 +19,8 @@ services:
       - STREAMGOLIB_LOG_FILENAME_LINK=/log/app.log
       - STREAMGOLIB_LOG_USE_FILELOG=y
       - AFSG_HTTP_FILE_SERVER_STORAGE_PAGE_ROOT=/storage
-      - ASRLOGGO_PY_VAD_IP=stream-py-vad
-      - ASRLOGGO_PY_VAD_GRPC_ROOT=8380
+      - STREAMLOGGO_PY_VAD_IP=stream-py-vad
+      - STREAMLOGGO_PY_VAD_GRPC_ROOT=8380
     depends_on:
       - mongo
 

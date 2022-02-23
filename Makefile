@@ -74,9 +74,9 @@ stop_kafka: ## stop kafka docker
 	@echo "stop kafka docker"
 	@scripts/stop_kafka.sh
 
-# start_server_docker: ## start_server_docker
-# 	@echo "start_server_docker"
-# 	@scripts/start_server_docker.sh
+test: ## test go
+	@echo "test go"
+	@go test -v
 
 .PHONY: help
 
