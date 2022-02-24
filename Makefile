@@ -27,7 +27,8 @@ install: ## install go dependencies
 		cloud.google.com/go/compute/metadata \
 		github.com/go-playground/validator \
 		github.com/stretchr/testify \
-		github.com/google/uuid
+		github.com/google/uuid \
+		github.com/cespare/reflex
 
 tool: ## install go tool
 	@echo "install go tool"
@@ -77,6 +78,10 @@ stop_kafka: ## stop kafka docker
 test: ## test go
 	@echo "test go"
 	@go test -v
+
+reflex: ## run reflex to watch and run
+	@echo "run reflex to watch and run"
+	@reflex -s -g reflex.conf -- reflex -c reflex.conf
 
 .PHONY: help
 
