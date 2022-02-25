@@ -28,7 +28,8 @@ install: ## install go dependencies
 		github.com/go-playground/validator \
 		github.com/stretchr/testify \
 		github.com/google/uuid \
-		github.com/cespare/reflex
+		github.com/cespare/reflex \
+		github.com/onsi/ginkgo/v2
 
 tool: ## install go tool
 	@echo "install go tool"
@@ -75,9 +76,9 @@ stop_kafka: ## stop kafka docker
 	@echo "stop kafka docker"
 	@scripts/stop_kafka.sh
 
-test: ## test go
-	@echo "test go"
-	@go test -v
+test: ## ginkgo -r
+	@echo "ginkgo -r"
+	@ginkgo -r
 
 reflex: ## run reflex to watch and run
 	@echo "run reflex to watch and run"
