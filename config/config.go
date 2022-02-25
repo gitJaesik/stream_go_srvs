@@ -34,8 +34,9 @@ func InitializeViperConfig() *SGLConfig {
 		// "MONGODB_URI": "mongodb://mongodb:27017",
 		"MONGODB_URI":                  "mongodb://0.0.0.0:27017",
 		"MONGODB_DATABASE":             "stream",
-		"MONGODB_VOICENOTE_COLLECTION": "voicenote_collection",
-		"MONGODB_USER_COLLECTION":      "user_collection",
+		"MONGODB_NOTE_COLLECTION":      "note",
+		"MONGODB_VOICENOTE_COLLECTION": "voicenote",
+		"MONGODB_USER_COLLECTION":      "user",
 		"CRON_SECONDS":                 "30",
 		"GOOGLE_STT_IP":                "127.0.0.1",
 		"GOOGLE_STT_PORT":              "9999",
@@ -65,6 +66,7 @@ func InitializeViperConfig() *SGLConfig {
 		"MONGODB_URI",
 		"MONGODB_DATABASE",
 		"MONGODB_VOICENOTE_COLLECTION",
+		"MONGODB_NOTE_COLLECTION",
 		"MONGODB_USER_COLLECTION",
 		"CRON_SECONDS",
 		"GOOGLE_STT_IP",
@@ -129,6 +131,11 @@ func (s *SGLConfig) GetMongoDatabase() string {
 // GetMongoVoicenoteCollection ...
 func (s *SGLConfig) GetMongoVoicenoteCollection() string {
 	return s.values["MONGODB_VOICENOTE_COLLECTION"]
+}
+
+// GetMongoNoteCollection ...
+func (s *SGLConfig) GetMongoNoteCollection() string {
+	return s.values["MONGODB_NOTE_COLLECTION"]
 }
 
 // GetMongoUserCollection ...
@@ -266,6 +273,11 @@ func GetMongoDatabase() string {
 // GetMongoVoicenoteCollection ...
 func GetMongoVoicenoteCollection() string {
 	return SglConfig.values["MONGODB_VOICENOTE_COLLECTION"]
+}
+
+// GetMongoNoteCollection ...
+func GetMongoNoteCollection() string {
+	return SglConfig.values["MONGODB_NOTE_COLLECTION"]
 }
 
 // GetMongoUserCollection ...

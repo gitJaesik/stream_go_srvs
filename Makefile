@@ -68,6 +68,14 @@ stop_all: ## start_all
 	@echo "stop_all"
 	@scripts/stop_all.sh
 
+start_mongo: ## start_mongo
+	@echo "start_mongo"
+	@scripts/start_mongo.sh
+
+stop_mongo: ## stop_mongo
+	@echo "stop_mongo"
+	@scripts/stop_mongo.sh
+
 start_kafka: ## start kafka docker
 	@echo "start kafka docker"
 	@scripts/start_kafka.sh

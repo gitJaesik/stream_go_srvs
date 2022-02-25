@@ -89,6 +89,6 @@ volumes:
 
 networks:
   stream_network:
-    external: true
+    # external: true
 
 
