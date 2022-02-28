@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package stream_common.v1;
+option go_package = "github.com/gitJaesik/stream_go_srvs/gen/proto/go/stream_common/v1";
+
+message ClientInfo {
+  string device_type = 1;
+  string device_token = 2;
+  string location = 3;
+}
+
+message AudioMessage {
+  // sample_rate * bit_depth * frame_duration / frame_number
+  bytes audio_data = 1;
+  // pcm, wav, mp3
+  string audio_format = 2;
+  // 16000
+  int32 sample_rate = 3;
+  // 16
+  int32 bit_depth = 4;
+  // 10ms, 20ms, 30ms
+  int32 frame_duration = 5;
+  // audio_data / sample_rate / bit_depth / frame_duration
+  int32 frame_number = 6;
+}

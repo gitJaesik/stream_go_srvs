@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package stream_api_server.v1;
+option go_package = "github.com/gitJaesik/stream_go_srvs/gen/proto/go/stream_api_server/v1";
+
+import "stream_common/v1/stream_common.proto";
+import "google/protobuf/timestamp.proto";
+
+message EchoRequest { string message = 1; }
+message EchoResponse { string message = 1; }
+
+message CreateNoteRequest {
+  string note_title = 1;
+  string note_content = 2;
+  stream_common.v1.ClientInfo client_info = 3;
+}
+message CreateNoteResponse {
+  bool success = 1;
+  string result = 2;
+  google.protobuf.Timestamp created_at = 3;
+}
+
+message SpeechNoteStreamRequest {
+  string note_key = 1;
+  stream_common.v1.AudioMessage audio_message = 2;
+}
+message SpeechNoteStreamResponse {
+  string audio_url_of_file_server = 1;
+  bool success = 2;
+  string result = 3;
+}
+
+message CreateNoteWithSpeechNoteRequest {
+  string note_title = 1;
+  string note_content = 2;
+  stream_common.v1.ClientInfo client_info = 3;
+  stream_common.v1.AudioMessage audio_message = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+message CreateNoteWithSpeechNoteResponse {
+  bool success = 1;
+  string result = 2;
+}
+
+service StreamApiService {
+  rpc Echo(EchoRequest) returns (EchoResponse) {}
+  rpc CreateNote(CreateNoteRequest) returns (CreateNoteResponse) {}
+  rpc SpeechNoteStream(stream SpeechNoteStreamRequest)
+      returns (SpeechNoteStreamResponse) {}
+  rpc CreateNoteWithSpeechNote(CreateNoteWithSpeechNoteRequest)
+      returns (CreateNoteWithSpeechNoteResponse) {}
+}

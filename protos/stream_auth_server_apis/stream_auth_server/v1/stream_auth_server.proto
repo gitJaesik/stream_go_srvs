@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package stream_auth_server.v1;
+option go_package = "github.com/gitJaesik/stream_go_srvs/gen/proto/go/stream_auth_server/v1";
+
+import "stream_common/v1/stream_common.proto";
+import "google/protobuf/timestamp.proto";
+
+message EchoRequest { string message = 1; }
+message EchoResponse { string message = 1; }
+
+message SignInRequest {
+  string username_or_email = 1;
+  string password = 2;
+  stream_common.v1.ClientInfo client_info = 3;
+}
+message SignInResponse { string jwt_token = 1; }
+
+message SignOutRequest {}
+message SignOutResponse {
+  bool success = 1;
+  string result = 2;
+}
+
+message SignUpRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+message SignUpResponse {
+  bool success = 1;
+  string result = 2;
+  google.protobuf.Timestamp created_at = 3;
+}
+
+service StreamAuthService {
+  rpc Echo(EchoRequest) returns (EchoResponse) {}
+  rpc SignIn(SignInRequest) returns (SignInResponse) {}
+  rpc SignOut(SignOutRequest) returns (SignOutResponse) {}
+  rpc SignUp(SignUpRequest) returns (SignUpResponse) {}
+}

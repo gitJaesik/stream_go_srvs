@@ -1,4 +1,4 @@
-module github.com/gitJaesik/grpcgolib
+module github.com/gitJaesik/stream_go_srvs
 
 go 1.17
 

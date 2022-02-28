@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package py_vad.v1;
+option go_package = "github.com/gitJaesik/stream_go_srvs/gen/proto/go/py_vad/v1";
+
+import "stream_common/v1/stream_common.proto";
+import "google/protobuf/timestamp.proto";
+
+message EchoRequest { string message = 1; }
+message EchoResponse { string message = 1; }
+
+message CheckVadRequest { stream_common.v1.AudioMessage audio_message = 1; }
+message CheckVadResponse { bool is_speech = 1; }
+
+service PyVadService {
+  rpc Echo(EchoRequest) returns (EchoResponse) {}
+  rpc CheckVad(CheckVadRequest) returns (CheckVadResponse) {}
+}

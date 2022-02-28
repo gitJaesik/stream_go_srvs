@@ -1,0 +1,8 @@
+version: v1
+name: buf.build/gitjaesik/stream_common_apis
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT

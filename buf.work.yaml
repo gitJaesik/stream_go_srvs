@@ -1,0 +1,7 @@
+version: v1
+directories:
+  - protos/stream_common_apis
+  - protos/stream_api_server_apis
+  - protos/stream_file_server_apis
+  - protos/stream_auth_server_apis
+  - protos/py_vad_apis

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package stream_file_server.v1;
+option go_package = "github.com/gitJaesik/stream_go_srvs/gen/proto/go/stream_file_server/v1";
+
+import "stream_common/v1/stream_common.proto";
+
+message EchoRequest { string message = 1; }
+message EchoResponse { string message = 1; }
+
+message UploadStreamRequest {
+  string note_key = 1;
+  stream_common.v1.AudioMessage audio_message = 2;
+}
+message UploadStreamResponse {
+  string audio_url_of_file_server = 1;
+  bool success = 2;
+  string result = 3;
+}
+
+message UploadFileRequest {
+  string note_key = 1;
+  stream_common.v1.AudioMessage audio_message = 2;
+}
+message UploadFileResponse {
+  string audio_url_of_file_server = 1;
+  bool success = 2;
+  string result = 3;
+}
+
+service StreamFileService {
+  rpc Echo(EchoRequest) returns (EchoResponse) {}
+  rpc UploadStream(stream UploadStreamRequest) returns (UploadStreamResponse) {}
+  rpc UploadFile(UploadFileRequest) returns (UploadFileResponse) {}
+}
