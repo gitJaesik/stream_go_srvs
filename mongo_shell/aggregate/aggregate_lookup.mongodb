@@ -1,0 +1,23 @@
+use('stream');
+
+// db.user.drop();
+// db.note.drop();
+// db.user.insertMany([
+//   {'_id':101, 'email': 'test1@gmail.com', 'password': 'test1', 'username': 'test1', 'createdAt': new Date()},
+//   {'_id':102, 'email': 'test2@gmail.com', 'password': 'test2', 'username': 'test2', 'createdAt': new Date()},
+//   {'_id':103, 'email': 'test3@gmail.com', 'password': 'test3', 'username': 'test3', 'createdAt': new Date()},
+// ]);
+// db.note.insertMany([
+//   {'_id':201, 'noteKey': 'noteTestKey1', 'title': 'noteTest1', 'createdAt': new Date(), 'publisher': 101},
+//   {'_id':202, 'noteKey': 'noteTestKey2', 'title': 'noteTest2', 'createdAt': new Date(), 'publisher': 103},
+// ]);
+
+const aggregation = [
+  { $match: { _id: 201}},
+  { $lookup: { from: 'user', localField: '_id', foreignField: 'publisher', as: 'users'}},
+]
+
+db.note.aggregate(aggregation);
+
+// db.user.drop();
+// db.note.drop();

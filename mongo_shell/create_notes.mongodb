@@ -1,0 +1,11 @@
+
+use('stream');
+
+db.note.drop();
+
+// db.createCollection('user');
+db.note.insertMany([
+  {'_id':201, 'noteKey': 'noteTestKey1', 'title': 'noteTest1', 'createdAt': new Date()},
+  {'_id':202, 'noteKey': 'noteTestKey2', 'title': 'noteTest2', 'createdAt': new Date()},
+]);
+
