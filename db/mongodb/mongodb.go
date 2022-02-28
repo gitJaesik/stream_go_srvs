@@ -152,7 +152,7 @@ func (mc *MongoDBClient) RegisterAndCheckIndexes(ctx context.Context) error {
 	ttlIndexes := []string{}
 	ttlIndexes = append(ttlIndexes, "session.jwtsStatus")
 
-	for _, idxStr := range indexes {
+	for _, idxStr := range ttlIndexes {
 		ret, err := EnsureIndexExist(userCollection, idxStr)
 		if err != nil {
 			return err
