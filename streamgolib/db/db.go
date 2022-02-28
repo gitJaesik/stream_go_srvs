@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gitJaesik/grpcgolib/logger"
+	"github.com/gitJaesik/stream_go_srvs/streamgolib/logger"
 	"golang.org/x/crypto/bcrypt"
 )
 

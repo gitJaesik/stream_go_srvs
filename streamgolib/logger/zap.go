@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/gitJaesik/grpcgolib/config"
+	"github.com/gitJaesik/stream_go_srvs/streamgolib/config"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

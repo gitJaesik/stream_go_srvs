@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gitJaesik/grpcgolib/config"
-	"github.com/gitJaesik/grpcgolib/logger"
+	"github.com/gitJaesik/stream_go_srvs/streamgolib/config"
+	"github.com/gitJaesik/stream_go_srvs/streamgolib/logger"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

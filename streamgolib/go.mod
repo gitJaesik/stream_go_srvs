@@ -1,4 +1,4 @@
-module github.com/gitJaesik/stream_go_srvs
+module github.com/gitJaesik/stream_go_srvs/streamgolib
 
 go 1.17
 
