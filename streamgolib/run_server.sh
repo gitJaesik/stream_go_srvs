@@ -21,12 +21,19 @@ echo 'go get github.com/google/wire/cmd/wire: todo tidy thing make it better'
 go get github.com/google/wire/cmd/wire
 
 # wire generate
-echo 'go generate'
-go generate
-error_handle $? 'go generate'
+WIRE_GEN="wire_gen.go"
+if [ -f "$WIRE_GEN" ]; then
+    echo 'go generate'
+    go generate
+    error_handle $? 'go generate'
+else
+    echo "wire"
+    wire
+    error_handle $? 'wire'
+fi
 
 echo 'go build'
-go build -o ./stream-api-server
+go build -o ./stream-api-server-go
 error_handle $? 'go build'
 
 echo 'go mod vendor'
@@ -38,5 +45,5 @@ error_handle $? 'go mod vendor'
 # export STREAMGOLIB_LOG_FILENAME_LINK=/log/app.log
 
 
-echo 'GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info ./stream-api-server'
-GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info ./stream-api-server
+echo 'GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info ./stream-api-server-go'
+GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info ./stream-api-server-go

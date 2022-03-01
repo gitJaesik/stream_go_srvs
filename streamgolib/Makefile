@@ -1,5 +1,12 @@
 .DEFAULT_GOAL := help
 
+add_local_lib: ##add_local_lib
+	@echo "add_local_lib"
+	@go mod edit -replace github.com/gitJaesik/stream_go_srvs/streamgolib=../streamgolib
+
+generate_statik: ## generate_statik
+	@statik -m -f -src public/
+
 env: ## set env for local lib
 	@echo "set env for local lib"
 	@go env -w GOPRIVATE=github.com/*
@@ -29,7 +36,8 @@ install: ## install go dependencies
 		github.com/stretchr/testify \
 		github.com/google/uuid \
 		github.com/cespare/reflex \
-		github.com/onsi/ginkgo/v2
+		github.com/onsi/ginkgo/v2 \
+		github.com/go-co-op/gocron
 
 tool: ## install go tool
 	@echo "install go tool"
@@ -98,22 +106,5 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 # https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

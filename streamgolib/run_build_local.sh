@@ -18,9 +18,17 @@ go mod tidy
 echo 'go get github.com/google/wire/cmd/wire: todo tidy thing make it better'
 go get github.com/google/wire/cmd/wire
 
-echo 'go generate'
-go generate
-error_handle $? 'go generate'
+# wire generate
+WIRE_GEN="wire_gen.go"
+if [ -f "$WIRE_GEN" ]; then
+    echo 'go generate'
+    go generate
+    error_handle $? 'go generate'
+else
+    echo "wire"
+    wire
+    error_handle $? 'wire'
+fi
 
 echo 'go build'
 go build
