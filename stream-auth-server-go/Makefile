@@ -19,7 +19,7 @@ install: ## install go dependencies
 		github.com/spf13/pflag \
 		go.uber.org/zap \
 		github.com/lestrrat-go/file-rotatelogs \
-		github.com/dgrijalva/jwt-go \
+		github.com/golang-jwt/jwt/v4 \
 		golang.org/x/crypto/bcrypt \
 		go.mongodb.org/mongo-driver/mongo \
 		github.com/fatih/color \
@@ -29,7 +29,6 @@ install: ## install go dependencies
 		github.com/bufbuild/buf/cmd/buf \
 		github.com/google/wire/cmd/wire \
 		github.com/go-audio/wav \
-		gopkg.in/confluentinc/confluent-kafka-go.v1/kafka \
 		golang.org/x/oauth2 \
 		cloud.google.com/go/compute/metadata \
 		github.com/go-playground/validator \
