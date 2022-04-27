@@ -6,8 +6,10 @@ package main
 
 import (
 	"github.com/gitJaesik/stream_go_srvs/stream-auth-server-go/config"
+	"github.com/gitJaesik/stream_go_srvs/stream-auth-server-go/server"
 	sgldb "github.com/gitJaesik/stream_go_srvs/streamgolib/db"
 	"github.com/google/wire"
+	"google.golang.org/grpc"
 )
 
 // initializeConfig ...
@@ -19,7 +21,7 @@ func initializeConfig() *config.SGLConfig {
 }
 
 func initializeServer(
-	sglConfig *config.SGLConfig, sgldb.StreamGoLibDB) *grpc.Server {
+	sglConfig *config.SGLConfig, mongodb sgldb.StreamGoLibDB) *grpc.Server {
 	wire.Build(
 		server.Set,
 	)

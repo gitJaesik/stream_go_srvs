@@ -8,6 +8,9 @@ package main
 
 import (
 	"github.com/gitJaesik/stream_go_srvs/stream-auth-server-go/config"
+	"github.com/gitJaesik/stream_go_srvs/stream-auth-server-go/server"
+	"github.com/gitJaesik/stream_go_srvs/streamgolib/db"
+	"google.golang.org/grpc"
 )
 
 // Injectors from wire.go:
@@ -16,4 +19,9 @@ import (
 func initializeConfig() *config.SGLConfig {
 	sglConfig := config.InitializeViperConfig()
 	return sglConfig
+}
+
+func initializeServer(sglConfig *config.SGLConfig, mongodb db.StreamGoLibDB) *grpc.Server {
+	grpcServer := server.InitializeGrpcServer(sglConfig, mongodb)
+	return grpcServer
 }

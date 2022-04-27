@@ -42,7 +42,7 @@ func main() {
 
 	srv := initializeServer(sglConfig, mongoDb)
 
-	if err := srv.Server(lis); err != nil {
+	if err := srv.Serve(lis); err != nil {
 		logger.Logger.Errorw("main", "server run error", err)
 	}
 
