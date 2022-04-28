@@ -47,3 +47,6 @@ error_handle $? 'go mod vendor'
 
 echo 'GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info ./stream-auth-server-go'
 GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info ./stream-auth-server-go
+
+# echo './stream-auth-server-go'
+# ./stream-auth-server-go

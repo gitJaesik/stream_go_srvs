@@ -33,3 +33,5 @@ test/test
 test/testproject
 
 .vscode
+
+stream-auth-server-go/stream-auth-server-go

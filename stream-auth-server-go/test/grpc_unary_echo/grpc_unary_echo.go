@@ -7,13 +7,13 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 
-	// pbsas "github.com/gitJaesik/stream_go_srvs/streamgolib/gen/proto/go/stream_auth_server/v1/stream_auth_serverv1"
-	// pbsas "github.com/gitJaesik/stream_go_srvs/streamgolib/gen/proto/go/stream_auth_server/v1/stream_auth_serverv1"
+	"github.com/gitJaesik/stream_go_srvs/stream-auth-server-go/test/testdata"
 	pbsas "github.com/gitJaesik/stream_go_srvs/streamgolib/gen/proto/go/stream_auth_server/v1"
+	"github.com/gitJaesik/stream_go_srvs/streamgolib/logger"
 )
 
-// pbsas "github.com/gitJaesik/stream_go_srvs/streamgolib/gen/proto/go/stream_common/v1/stream_auth_serverv1"
 const (
 	address = "localhost:8280"
 )
@@ -30,17 +30,20 @@ func callUnaryEcho(client pbsas.StreamAuthServiceClient, er *pbsas.EchoRequest) 
 
 func main() {
 
-	// creds, err := credentials.NewClientTLSFromFile(data.Path("x509/ca_cert.perm"), "x.test.example.com")
-	// if err != nil {
-	// 	log.Fatalf("failed to load credentials: %v", err)
-	// }
+	logger.Logger.Infow("test/grpc_unary_echo", "data.Path for cert", testdata.Path("x509/ca_cert.pem"))
 
-	// opts := []grpc.DialOption{
-	// 	grpc.WithTransportCredentials(creds),
-	// }
-	// opts = append(opts, grpc.WithBlock())
+	creds, err := credentials.NewClientTLSFromFile(testdata.Path("x509/ca_cert.pem"), "x.test.example.com")
+	if err != nil {
+		log.Fatalf("failed to load credentials: %v", err)
+	}
 
-	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	opts := []grpc.DialOption{
+		grpc.WithTransportCredentials(creds),
+	}
+	opts = append(opts, grpc.WithBlock())
+
+	conn, err := grpc.Dial(address, opts...)
+	// conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
