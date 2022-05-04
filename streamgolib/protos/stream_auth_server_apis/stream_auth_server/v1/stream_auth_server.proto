@@ -5,6 +5,7 @@ option go_package = "github.com/gitJaesik/stream_go_srvs/gen/proto/go/stream_aut
 
 import "stream_common/v1/stream_common.proto";
 import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
 message EchoRequest { string message = 1; }
 message EchoResponse { string message = 1; }

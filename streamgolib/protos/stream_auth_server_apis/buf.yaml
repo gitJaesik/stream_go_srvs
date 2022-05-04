@@ -1,7 +1,8 @@
 version: v1
 name: buf.build/gitjaesik/stream_auth_server_apis
 deps:
-  - buf.build/gitjaesik/stream_common_apis
+  - buf.build/googleapis/googleapis
+  - buf.build/grpc-ecosystem/grpc-gateway
 breaking:
   use:
     - FILE

@@ -1,7 +1,7 @@
 version: v1
 name: buf.build/gitjaesik/stream_file_server_apis
 deps:
-  - buf.build/gitjaesik/stream_common_apis
+  - buf.build/googleapis/googleapis
 breaking:
   use:
     - FILE
