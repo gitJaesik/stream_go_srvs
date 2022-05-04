@@ -3,13 +3,16 @@ package server
 import (
 	"crypto/tls"
 
+	_ "github.com/gitJaesik/stream_go_srvs/streamgolib/config" // for save
+	_ "github.com/gitJaesik/stream_go_srvs/streamgolib/data"   // for save
+	"github.com/gitJaesik/stream_go_srvs/streamgolib/logger"
+
 	"github.com/gitJaesik/stream_go_srvs/stream-auth-server-go/config"
 	"github.com/gitJaesik/stream_go_srvs/stream-auth-server-go/service"
 	sglconfig "github.com/gitJaesik/stream_go_srvs/streamgolib/config"
 	"github.com/gitJaesik/stream_go_srvs/streamgolib/data"
 	sgldb "github.com/gitJaesik/stream_go_srvs/streamgolib/db"
 	pbsas "github.com/gitJaesik/stream_go_srvs/streamgolib/gen/proto/go/stream_auth_server/v1"
-	"github.com/gitJaesik/stream_go_srvs/streamgolib/logger"
 	"github.com/google/wire"
 
 	"google.golang.org/grpc"

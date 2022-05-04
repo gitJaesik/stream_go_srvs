@@ -35,7 +35,12 @@ message SignUpResponse {
 }
 
 service StreamAuthService {
-  rpc Echo(EchoRequest) returns (EchoResponse) {}
+  rpc Echo(EchoRequest) returns (EchoResponse) {
+    option (google.api.http) = {
+      post: "/v1/example/echo"
+      body: "*"
+    };
+  }
   rpc SignIn(SignInRequest) returns (SignInResponse) {}
   rpc SignOut(SignOutRequest) returns (SignOutResponse) {}
   rpc SignUp(SignUpRequest) returns (SignUpResponse) {}

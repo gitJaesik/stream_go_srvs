@@ -180,7 +180,7 @@ func RegisterStreamAuthServiceHandlerServer(ctx context.Context, mux *runtime.Se
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/stream_auth_server.v1.StreamAuthService/Echo", runtime.WithHTTPPathPattern("/stream_auth_server.v1.StreamAuthService/Echo"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/stream_auth_server.v1.StreamAuthService/Echo", runtime.WithHTTPPathPattern("/v1/example/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -315,7 +315,7 @@ func RegisterStreamAuthServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/stream_auth_server.v1.StreamAuthService/Echo", runtime.WithHTTPPathPattern("/stream_auth_server.v1.StreamAuthService/Echo"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/stream_auth_server.v1.StreamAuthService/Echo", runtime.WithHTTPPathPattern("/v1/example/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -398,7 +398,7 @@ func RegisterStreamAuthServiceHandlerClient(ctx context.Context, mux *runtime.Se
 }
 
 var (
-	pattern_StreamAuthService_Echo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"stream_auth_server.v1.StreamAuthService", "Echo"}, ""))
+	pattern_StreamAuthService_Echo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "example", "echo"}, ""))
 
 	pattern_StreamAuthService_SignIn_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"stream_auth_server.v1.StreamAuthService", "SignIn"}, ""))
 
