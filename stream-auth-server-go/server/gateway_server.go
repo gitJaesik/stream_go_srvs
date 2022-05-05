@@ -5,8 +5,8 @@ import (
 	"log"
 
 	_ "github.com/gitJaesik/stream_go_srvs/stream-auth-server-go/test/testdata"
-	_ "github.com/gitJaesik/stream_go_srvs/streamgolib/config" // for save
-	_ "github.com/gitJaesik/stream_go_srvs/streamgolib/data"   // for save
+	_ "github.com/gitJaesik/stream_go_srvs/streamgolib"      // for save
+	_ "github.com/gitJaesik/stream_go_srvs/streamgolib/data" // for save
 	"github.com/gitJaesik/stream_go_srvs/streamgolib/logger"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 
@@ -14,6 +14,7 @@ import (
 	pbsas "github.com/gitJaesik/stream_go_srvs/streamgolib/gen/proto/go/stream_auth_server/v1"
 	"github.com/google/wire"
 
+	sglConfig "github.com/gitJaesik/stream_go_srvs/streamgolib/config" // for save
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
@@ -33,7 +34,7 @@ func InitializeGatewayMux() *runtime.ServeMux {
 		grpc.WithBlock(), grpc.WithTransportCredentials(insecure.NewCredentials()),
 	}
 
-	conn, err := grpc.DialContext(context.Background(), "0.0.0.0:8280", opts...)
+	conn, err := grpc.DialContext(context.Background(), "0.0.0.0:"+sglConfig.GetAuthServerGrpcPort(), opts...)
 	if err != nil {
 		logger.Logger.Errorw("Failed to dial server", "failed to load key pair", err)
 		panic(err)
@@ -62,7 +63,7 @@ func InitializeSecureGatewayMux() *runtime.ServeMux {
 		grpc.WithBlock(), grpc.WithTransportCredentials(creds),
 	}
 
-	conn, err := grpc.DialContext(context.Background(), "0.0.0.0:8280", opts...)
+	conn, err := grpc.DialContext(context.Background(), "0.0.0.0:"+sglConfig.GetAuthServerGrpcPort(), opts...)
 	if err != nil {
 		logger.Logger.Errorw("Failed to dial server", "failed to load key pair", err)
 		panic(err)

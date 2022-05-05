@@ -58,6 +58,6 @@ func main() {
 	// 	glog.Fatal(err)
 	// }
 	gwMux := initializeGatewayMux()
-	http.ListenAndServe(":8081", gwMux)
+	http.ListenAndServe(":"+sglConfig.GetAuthServerGwPort(), gwMux)
 
 }

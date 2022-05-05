@@ -26,17 +26,20 @@ var SglConfig SGLConfig
 func InitializeViperConfig() *SGLConfig {
 
 	os.Setenv("STREAMAUTHGO_AUTH_SERVER_GRPC_PORT", "8280")
+	os.Setenv("STREAMAUTHGO_AUTH_SERVER_GW_PORT", "8281")
 	os.Setenv("STREAMAUTHGO_CRON_SECONDS", "30")
 
 	defaultEnvs := map[string]string{
 		"CRON_SECONDS":          "30",
 		"AUTH_SERVER_GRPC_PORT": "8280",
+		"AUTH_SERVER_GW_PORT":   "8281",
 	}
 
 	SglConfig.values = map[string]string{}
 	envs = []string{
 		"CRON_SECONDS",
 		"AUTH_SERVER_GRPC_PORT",
+		"AUTH_SERVER_GW_PORT",
 	}
 
 	viper.SetEnvPrefix("STREAMAUTHGO")
@@ -75,6 +78,11 @@ func (s *SGLConfig) GetAuthServerGrpcPort() string {
 	return s.values["AUTH_SERVER_GRPC_PORT"]
 }
 
+// GetAuthServerGwPort ...
+func (s *SGLConfig) GetAuthServerGwPort() string {
+	return s.values["AUTH_SERVER_GW_PORT"]
+}
+
 ////
 
 // GetValues ...
@@ -90,4 +98,9 @@ func GetCronSeconds() string {
 // GetAuthServerGrpcPort ...
 func GetAuthServerGrpcPort() string {
 	return SglConfig.values["AUTH_SERVER_GRPC_PORT"]
+}
+
+// GetAuthServerGwPort ...
+func GetAuthServerGwPort() string {
+	return SglConfig.values["AUTH_SERVER_GW_PORT"]
 }

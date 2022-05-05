@@ -45,6 +45,7 @@ func InitializeViperConfig() *SGLConfig {
 		"FILE_SERVER_GRPC_PORT":        "8180",
 		"AUTH_SERVER_IP":               "127.0.0.1",
 		"AUTH_SERVER_GRPC_PORT":        "8280",
+		"AUTH_SERVER_GW_PORT":          "8281",
 		"CKEY":                         "CIPHERKEY01234567890123456789012",
 		"CIVKEY":                       "CIPHERIVKEY01234",
 		"LOG_LEVEL":                    "InfoLevel",
@@ -76,6 +77,7 @@ func InitializeViperConfig() *SGLConfig {
 		"FILE_SERVER_GRPC_PORT",
 		"AUTH_SERVER_IP",
 		"AUTH_SERVER_GRPC_PORT",
+		"AUTH_SERVER_GW_PORT",
 		"CKEY",
 		"CIVKEY",
 		"LOG_LEVEL",
@@ -181,6 +183,11 @@ func (s *SGLConfig) GetAuthServerIp() string {
 // GetAuthServerGrpcPort ...
 func (s *SGLConfig) GetAuthServerGrpcPort() string {
 	return s.values["AUTH_SERVER_GRPC_PORT"]
+}
+
+// GetAuthServerGwPort ...
+func (s *SGLConfig) GetAuthServerGwPort() string {
+	return s.values["AUTH_SERVER_GW_PORT"]
 }
 
 // GetCKey ...
@@ -323,6 +330,11 @@ func GetAuthServerIp() string {
 // GetAuthServerGrpcPort ...
 func GetAuthServerGrpcPort() string {
 	return SglConfig.values["AUTH_SERVER_GRPC_PORT"]
+}
+
+// GetAuthServerGwPort ...
+func GetAuthServerGwPort() string {
+	return SglConfig.values["AUTH_SERVER_GW_PORT"]
 }
 
 // GetCKey ...
