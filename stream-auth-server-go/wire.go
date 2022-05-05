@@ -9,6 +9,7 @@ import (
 	"github.com/gitJaesik/stream_go_srvs/stream-auth-server-go/server"
 	sgldb "github.com/gitJaesik/stream_go_srvs/streamgolib/db"
 	"github.com/google/wire"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 )
 
@@ -24,6 +25,13 @@ func initializeServer(
 	sglConfig *config.SGLConfig, mongodb sgldb.StreamGoLibDB) *grpc.Server {
 	wire.Build(
 		server.Set,
+	)
+	return nil
+}
+
+func initializeGatewayMux() *runtime.ServeMux {
+	wire.Build(
+		server.GatewaySet,
 	)
 	return nil
 }

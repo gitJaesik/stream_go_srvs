@@ -4,7 +4,6 @@ go 1.18
 
 require (
 	github.com/gitJaesik/stream_go_srvs/streamgolib v0.0.0-00010101000000-000000000000
-	github.com/golang/glog v1.0.0
 	github.com/google/wire v0.5.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
 	github.com/spf13/viper v1.11.0
@@ -16,6 +15,7 @@ require (
 require (
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
+	github.com/golang/glog v1.0.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/subcommands v1.2.0 // indirect
