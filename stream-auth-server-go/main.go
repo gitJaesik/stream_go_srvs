@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gitJaesik/stream_go_srvs/stream-auth-server-go/server"
 	"github.com/gitJaesik/stream_go_srvs/streamgolib" // for save
 	sglmongo "github.com/gitJaesik/stream_go_srvs/streamgolib/db/mongodb"
 	"github.com/gitJaesik/stream_go_srvs/streamgolib/logger"
@@ -52,6 +53,13 @@ func main() {
 			logger.Logger.Errorw("main", "server run error", err)
 		}
 
+	}()
+
+	go func() {
+		httpSwagger := server.GetOpenAPIHandler()
+		http.ListenAndServe(":8282", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			httpSwagger.ServeHTTP(w, r)
+		}))
 	}()
 
 	// if err := run(); err != nil {

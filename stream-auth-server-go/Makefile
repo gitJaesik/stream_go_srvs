@@ -5,7 +5,8 @@ add_local_lib: ##add_local_lib
 	@go mod edit -replace github.com/gitJaesik/stream_go_srvs/streamgolib=../streamgolib
 
 generate_statik: ## generate_statik
-	@statik -m -f -src public/
+	# @statik -m -f -src public/
+	@statik -m -f -src swagger-ui-dist/
 
 env: ## set env for local lib
 	@echo "set env for local lib"
@@ -37,7 +38,8 @@ install: ## install go dependencies
 		github.com/cespare/reflex \
 		github.com/onsi/ginkgo/v2 \
 		github.com/go-co-op/gocron \
-		google.golang.org/grpc
+		google.golang.org/grpc \
+		github.com/rakyll/statik
 
 tool: ## install go tool
 	@echo "install go tool"
