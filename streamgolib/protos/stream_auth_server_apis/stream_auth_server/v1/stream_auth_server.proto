@@ -34,14 +34,86 @@ message SignUpResponse {
   google.protobuf.Timestamp created_at = 3;
 }
 
+message CreatePlayerInfoRequest {
+  string id = 1;
+  string nickName = 2;
+  int32 playerLevel = 3;
+  string tier = 4;
+  float winningRate = 5;
+  int32 victoryCount = 6;
+  int32 defeatCount = 7;
+  int32 maxWave = 8;
+  int32 trophyCount = 9;
+  int32 owningJewel = 10;
+  int32 owningGold  = 11;
+  int32 owningBox  = 12;
+  int32 owningMap  = 13;
+  repeated int32 owningEmoticon = 14;
+  repeated string owningDice = 15;
+  int32 dailyGoldLevel  = 16;
+  google.protobuf.Timestamp created_at = 17;
+  google.protobuf.Timestamp updated_at = 18;
+}
+message CreatePlayerInfoResponse {
+  string user_id = 1;
+  // string username = 2;
+}
+
+
+message GetPlayerInfoRequest {
+  string user_id = 1;
+  // string username = 2;
+}
+message GetPlayerInfoResponse {
+  string id = 1;
+  string nickName = 2;
+  int32 playerLevel = 3;
+  string tier = 4;
+  float winningRate = 5;
+  int32 victoryCount = 6;
+  int32 defeatCount = 7;
+  int32 maxWave = 8;
+  int32 trophyCount = 9;
+  int32 owningJewel = 10;
+  int32 owningGold  = 11;
+  int32 owningBox  = 12;
+  int32 owningMap  = 13;
+  repeated int32 owningEmoticon = 14;
+  repeated string owningDice = 15;
+  int32 dailyGoldLevel  = 16;
+  google.protobuf.Timestamp created_at = 17;
+  google.protobuf.Timestamp updated_at = 18;
+}
+
+// grpc-gateway reference annotation
+// https://github.com/googleapis/googleapis/blob/master/google/api/http.proto
+
 service StreamAuthService {
   rpc Echo(EchoRequest) returns (EchoResponse) {
     option (google.api.http) = {
-      post: "/v1/example/echo"
-      body: "*"
+      get: "/v1/example/echo/{message}"
     };
   }
+  // rpc Echo(EchoRequest) returns (EchoResponse) {
+  //   option (google.api.http) = {
+  //     post: "/v1/example/echo"
+  //     body: "*"
+  //   };
+  // }
   rpc SignIn(SignInRequest) returns (SignInResponse) {}
   rpc SignOut(SignOutRequest) returns (SignOutResponse) {}
   rpc SignUp(SignUpRequest) returns (SignUpResponse) {}
+
+  rpc CreatePlayerInfo(CreatePlayerInfoRequest) returns (CreatePlayerInfoResponse) {
+    option (google.api.http) = {
+      post: "/v1/playerinfo/create"
+      body: "*"
+    };
+  }
+  rpc GetPlayerInfo(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
+    option (google.api.http) = {
+      get: "/v1/playerinfo/{user_id}"
+    };
+  }
+
 }

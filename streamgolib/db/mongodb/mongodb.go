@@ -5,13 +5,16 @@ import (
 	"errors"
 	"strconv"
 	"sync"
+	"time"
 
 	"github.com/gitJaesik/stream_go_srvs/streamgolib/config"
 	"github.com/gitJaesik/stream_go_srvs/streamgolib/db"
 	"github.com/gitJaesik/stream_go_srvs/streamgolib/db/mongodb/model"
+	pbsas "github.com/gitJaesik/stream_go_srvs/streamgolib/gen/proto/go/stream_auth_server/v1"
 	"github.com/gitJaesik/stream_go_srvs/streamgolib/logger"
 	"github.com/google/wire"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -175,4 +178,99 @@ func (mc *MongoDBClient) RegisterAndCheckIndexes(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+// InsertSomething ...
+// func (mc *MongoDBClient) InsertSomething(ctx context.Context, req *pbsas.GetPlayerInfoRequest) (interface{}, error) {
+func (mc *MongoDBClient) InsertSomething(ctx context.Context) (interface{}, error) {
+	// logger.Logger.Infof("insertingReq: %v, ", req)
+
+	// userID := ctx.Value(stream_authentication.UserIDKey{}).(string)
+	// logger.Logger.Infow("InsertSomething", "", userID)
+	// userSummery, err := mc.GetUserSummaryByUserIDKey(ctx, userID)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	me := mongoExecutor{}
+
+	result, err := me.execute(
+		func(ctx context.Context, database *mongo.Database) (interface{}, error) {
+			noteCollection := database.Collection(config.SglConfig.GetMongoNoteCollection())
+
+			now := time.Now()
+
+			note := model.NoteDocument{
+				ID:        primitive.NewObjectID(),
+				NoteKey:   "notekey",
+				CreatedAt: now,
+				UpdatedAt: now,
+				// Publisher: *userSummary,
+				Title:    "hello",
+				Contents: model.ContentDocument{},
+			}
+
+			insertOption := options.InsertOne()
+
+			result, err := noteCollection.InsertOne(ctx, note, insertOption)
+			if err != nil {
+				return nil, err
+			}
+
+			note.ID = result.InsertedID.(primitive.ObjectID)
+			noteKey := db.GenerateSomeKey(note.ID.Hex(), note.Title, now)
+			// filter update
+			return noteKey, nil
+		})
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// CreatePlayerInfo ...
+func (mc *MongoDBClient) CreatePlayerInfo(ctx context.Context, packet *pbsas.CreatePlayerInfoRequest) (interface{}, error) {
+	me := mongoExecutor{}
+
+	result, err := me.execute(
+		func(ctx context.Context, database *mongo.Database) (interface{}, error) {
+			playerCollection := database.Collection(config.SglConfig.GetMongoPlayerCollection())
+
+			now := time.Now()
+
+			player := model.PlayerDocument{
+				ID:             primitive.NewObjectID(),
+				NickName:       packet.NickName,
+				PlayerLevel:    packet.PlayerLevel,
+				Tier:           packet.Tier,
+				WinningRate:    packet.WinningRate,
+				VictoryCount:   packet.VictoryCount,
+				DefeatCount:    packet.DefeatCount,
+				MaxWave:        packet.MaxWave,
+				TrophyCount:    packet.TrophyCount,
+				OwningJewel:    packet.OwningJewel,
+				OwningGold:     packet.OwningGold,
+				OwningBox:      packet.OwningBox,
+				OwningMap:      packet.OwningMap,
+				DailyGoldLevel: packet.DailyGoldLevel,
+			}
+			insertOption := options.InsertOne()
+
+			result, err := playerCollection.InsertOne(ctx, player, insertOption)
+			if err != nil {
+				return nil, err
+			}
+
+			player.ID = result.InsertedID.(primitive.ObjectID)
+			playerKey := db.GenerateSomeKey(player.ID.Hex(), player.NickName, now)
+			// filter update
+			return playerKey, nil
+		})
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+
 }

@@ -16,8 +16,8 @@
     "application/json"
   ],
   "paths": {
-    "/v1/example/echo": {
-      "post": {
+    "/v1/example/echo/{message}": {
+      "get": {
         "operationId": "StreamAuthService_Echo",
         "responses": {
           "200": {
@@ -35,12 +35,72 @@
         },
         "parameters": [
           {
+            "name": "message",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "StreamAuthService"
+        ]
+      }
+    },
+    "/v1/playerinfo/create": {
+      "post": {
+        "operationId": "StreamAuthService_CreatePlayerInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreatePlayerInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1EchoRequest"
+              "$ref": "#/definitions/v1CreatePlayerInfoRequest"
             }
+          }
+        ],
+        "tags": [
+          "StreamAuthService"
+        ]
+      }
+    },
+    "/v1/playerinfo/{userId}": {
+      "get": {
+        "operationId": "StreamAuthService_GetPlayerInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetPlayerInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "tags": [
@@ -91,10 +151,89 @@
         }
       }
     },
-    "v1EchoRequest": {
+    "v1CreatePlayerInfoRequest": {
       "type": "object",
       "properties": {
-        "message": {
+        "id": {
+          "type": "string"
+        },
+        "nickName": {
+          "type": "string"
+        },
+        "playerLevel": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "tier": {
+          "type": "string"
+        },
+        "winningRate": {
+          "type": "number",
+          "format": "float"
+        },
+        "victoryCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "defeatCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "maxWave": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "trophyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owningJewel": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owningGold": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owningBox": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owningMap": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owningEmoticon": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "owningDice": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dailyGoldLevel": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1CreatePlayerInfoResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
           "type": "string"
         }
       }
@@ -104,6 +243,85 @@
       "properties": {
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "v1GetPlayerInfoResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "nickName": {
+          "type": "string"
+        },
+        "playerLevel": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "tier": {
+          "type": "string"
+        },
+        "winningRate": {
+          "type": "number",
+          "format": "float"
+        },
+        "victoryCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "defeatCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "maxWave": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "trophyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owningJewel": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owningGold": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owningBox": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owningMap": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "owningEmoticon": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "owningDice": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dailyGoldLevel": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },

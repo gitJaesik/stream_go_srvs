@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	pbsas "github.com/gitJaesik/stream_go_srvs/streamgolib/gen/proto/go/stream_auth_server/v1"
 	"github.com/gitJaesik/stream_go_srvs/streamgolib/logger"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -14,6 +15,8 @@ type StreamGoLibDB interface {
 	MongoPing(ctx context.Context) error
 	ListSomething(ctx context.Context) (interface{}, error)
 	RegisterAndCheckIndexes(ctx context.Context) error
+	InsertSomething(ctx context.Context) (interface{}, error)
+	CreatePlayerInfo(ctx context.Context, packet *pbsas.CreatePlayerInfoRequest) (interface{}, error)
 }
 
 func GenerateSomeKey(id, someKey string, date time.Time) string {

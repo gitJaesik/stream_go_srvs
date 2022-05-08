@@ -23,9 +23,17 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StreamAuthServiceClient interface {
 	Echo(ctx context.Context, in *EchoRequest, opts ...grpc.CallOption) (*EchoResponse, error)
+	// rpc Echo(EchoRequest) returns (EchoResponse) {
+	//   option (google.api.http) = {
+	//     post: "/v1/example/echo"
+	//     body: "*"
+	//   };
+	// }
 	SignIn(ctx context.Context, in *SignInRequest, opts ...grpc.CallOption) (*SignInResponse, error)
 	SignOut(ctx context.Context, in *SignOutRequest, opts ...grpc.CallOption) (*SignOutResponse, error)
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
+	CreatePlayerInfo(ctx context.Context, in *CreatePlayerInfoRequest, opts ...grpc.CallOption) (*CreatePlayerInfoResponse, error)
+	GetPlayerInfo(ctx context.Context, in *GetPlayerInfoRequest, opts ...grpc.CallOption) (*GetPlayerInfoResponse, error)
 }
 
 type streamAuthServiceClient struct {
@@ -72,14 +80,40 @@ func (c *streamAuthServiceClient) SignUp(ctx context.Context, in *SignUpRequest,
 	return out, nil
 }
 
+func (c *streamAuthServiceClient) CreatePlayerInfo(ctx context.Context, in *CreatePlayerInfoRequest, opts ...grpc.CallOption) (*CreatePlayerInfoResponse, error) {
+	out := new(CreatePlayerInfoResponse)
+	err := c.cc.Invoke(ctx, "/stream_auth_server.v1.StreamAuthService/CreatePlayerInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *streamAuthServiceClient) GetPlayerInfo(ctx context.Context, in *GetPlayerInfoRequest, opts ...grpc.CallOption) (*GetPlayerInfoResponse, error) {
+	out := new(GetPlayerInfoResponse)
+	err := c.cc.Invoke(ctx, "/stream_auth_server.v1.StreamAuthService/GetPlayerInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StreamAuthServiceServer is the server API for StreamAuthService service.
 // All implementations should embed UnimplementedStreamAuthServiceServer
 // for forward compatibility
 type StreamAuthServiceServer interface {
 	Echo(context.Context, *EchoRequest) (*EchoResponse, error)
+	// rpc Echo(EchoRequest) returns (EchoResponse) {
+	//   option (google.api.http) = {
+	//     post: "/v1/example/echo"
+	//     body: "*"
+	//   };
+	// }
 	SignIn(context.Context, *SignInRequest) (*SignInResponse, error)
 	SignOut(context.Context, *SignOutRequest) (*SignOutResponse, error)
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
+	CreatePlayerInfo(context.Context, *CreatePlayerInfoRequest) (*CreatePlayerInfoResponse, error)
+	GetPlayerInfo(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error)
 }
 
 // UnimplementedStreamAuthServiceServer should be embedded to have forward compatible implementations.
@@ -97,6 +131,12 @@ func (UnimplementedStreamAuthServiceServer) SignOut(context.Context, *SignOutReq
 }
 func (UnimplementedStreamAuthServiceServer) SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignUp not implemented")
+}
+func (UnimplementedStreamAuthServiceServer) CreatePlayerInfo(context.Context, *CreatePlayerInfoRequest) (*CreatePlayerInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePlayerInfo not implemented")
+}
+func (UnimplementedStreamAuthServiceServer) GetPlayerInfo(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPlayerInfo not implemented")
 }
 
 // UnsafeStreamAuthServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -182,6 +222,42 @@ func _StreamAuthService_SignUp_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StreamAuthService_CreatePlayerInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePlayerInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StreamAuthServiceServer).CreatePlayerInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stream_auth_server.v1.StreamAuthService/CreatePlayerInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StreamAuthServiceServer).CreatePlayerInfo(ctx, req.(*CreatePlayerInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StreamAuthService_GetPlayerInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPlayerInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StreamAuthServiceServer).GetPlayerInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stream_auth_server.v1.StreamAuthService/GetPlayerInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StreamAuthServiceServer).GetPlayerInfo(ctx, req.(*GetPlayerInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StreamAuthService_ServiceDesc is the grpc.ServiceDesc for StreamAuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -204,6 +280,14 @@ var StreamAuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SignUp",
 			Handler:    _StreamAuthService_SignUp_Handler,
+		},
+		{
+			MethodName: "CreatePlayerInfo",
+			Handler:    _StreamAuthService_CreatePlayerInfo_Handler,
+		},
+		{
+			MethodName: "GetPlayerInfo",
+			Handler:    _StreamAuthService_GetPlayerInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
