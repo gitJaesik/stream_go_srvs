@@ -239,7 +239,7 @@ func (mc *MongoDBClient) CreatePlayerInfo(ctx context.Context, packet *pbsas.Cre
 
 			now := time.Now()
 
-			player := model.PlayerDocument{
+			player := model.PlayerInfoDocument{
 				ID:             primitive.NewObjectID(),
 				NickName:       packet.NickName,
 				PlayerLevel:    packet.PlayerLevel,
