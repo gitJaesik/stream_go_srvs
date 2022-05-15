@@ -103,7 +103,7 @@ func (sas *streamAuthServer) GetPlayerInfo(c context.Context, gpir *pbsas.GetPla
 	//  return nil, responseErr
 	// }
 
-	mongoResponse, mongoErr := sas.mongoDb.ListSomething(c)
+	mongoResponse, mongoErr := sas.mongoDb.GetPlayerInfo(c, &pbsas.GetPlayerInfoRequest{})
 	if mongoErr != nil {
 		return nil, mongoErr
 	}

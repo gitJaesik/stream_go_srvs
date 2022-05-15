@@ -13,6 +13,7 @@ type EmotionDocument struct {
 	Description   string             `bson:"description"`
 	PurchaseGold  int32              `bson:"purchaseGold"`
 	PurchaseJewel int32              `bson:"purchaseJewel"`
+	IsDeleted     bool               `bson:"isDeleted"`
 	CreatedAt     time.Time          `bson:"createdAt"`
 	UpdatedAt     time.Time          `bson:"updatedAt"`
 }

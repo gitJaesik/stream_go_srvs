@@ -3,6 +3,8 @@ package mongodb
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
 	"strconv"
 	"sync"
 	"time"
@@ -229,6 +231,42 @@ func (mc *MongoDBClient) InsertSomething(ctx context.Context) (interface{}, erro
 	return result, nil
 }
 
+// CreateEmotion ...
+func (mc *MongoDBClient) CreateEmotion(ctx context.Context, packet *pbsas.Emotion) (interface{}, error) {
+	me := mongoExecutor{}
+
+	result, err := me.execute(
+		func(ctx context.Context, database *mongo.Database) (interface{}, error) {
+			emotionCollection := database.Collection(config.SglConfig.GetMongoEmotionCollection())
+
+			now := time.Now()
+
+			emotion := model.EmotionDocument{
+				ID:            primitive.NewObjectID(),
+				Name:          packet.Name,
+				EmotionId:     packet.EmotionId,
+				Description:   packet.Description,
+				PurchaseGold:  packet.PurchaseGold,
+				PurchaseJewel: packet.PurchaseJewel,
+				CreatedAt:     now,
+				UpdatedAt:     now,
+			}
+			insertOption := options.InsertOne()
+
+			result, err := emotionCollection.InsertOne(ctx, emotion, insertOption)
+			if err != nil {
+				return nil, err
+			}
+
+			// filter update
+			return result, nil
+		})
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 // CreatePlayerInfo ...
 func (mc *MongoDBClient) CreatePlayerInfo(ctx context.Context, packet *pbsas.CreatePlayerInfoRequest) (interface{}, error) {
 	me := mongoExecutor{}
@@ -241,6 +279,7 @@ func (mc *MongoDBClient) CreatePlayerInfo(ctx context.Context, packet *pbsas.Cre
 
 			player := model.PlayerInfoDocument{
 				ID:             primitive.NewObjectID(),
+				PlayerId:       packet.Id,
 				NickName:       packet.NickName,
 				PlayerLevel:    packet.PlayerLevel,
 				Tier:           packet.Tier,
@@ -273,4 +312,66 @@ func (mc *MongoDBClient) CreatePlayerInfo(ctx context.Context, packet *pbsas.Cre
 
 	return result, nil
 
+}
+
+// https://www.mongodb.com/blog/post/quick-start-golang--mongodb--data-aggregation-pipeline
+// https://www.mongodb.com/blog/post/quick-start-golang--mongodb--modeling-documents-with-go-data-structures
+// https://www.mongodb.com/blog/post/mongodb-go-driver-updated-to-version-104
+
+// GetPlayerInfo ...
+func (mc *MongoDBClient) GetPlayerInfo(ctx context.Context, packet *pbsas.GetPlayerInfoRequest) (interface{}, error) {
+	me := mongoExecutor{}
+
+	result, err := me.execute(
+		func(ctx context.Context, database *mongo.Database) (interface{}, error) {
+			playerCollection := database.Collection(config.SglConfig.GetMongoPlayerCollection())
+
+			/*
+								if err := connection.collection.FindOne(ctx, bson.M{"name": recipeName}).Decode(&recipe); err != nil {
+									return alexa.Response{}, err
+								}
+								  var results bson.M
+				    err := fsFiles.FindOne(ctx, bson.M{}).Decode(&results)
+				    if err != nil {
+				        log.Fatal(err)
+				    }
+				    // you can print out the results
+				    fmt.Println(results)
+			*/
+			// cursor, err := playerCollection.Find(ctx, bson.M{})
+			// ret := playerCollection.FindOne(ctx, bson.M{"playerId", 1})
+			var results bson.M
+			err := playerCollection.FindOne(ctx, bson.M{}).Decode(&results)
+			if err != nil {
+				log.Fatal(err)
+			}
+			// you can print out the results
+			fmt.Println(results)
+			// if err != nil {
+			// 	logger.Logger.Errorw("ListSomething", "find note collection error", err)
+			// 	return nil, err
+			// }
+
+			// defer cursor.Close(ctx)
+
+			// select
+			// notes := []model.NoteDocument{}
+			// for cursor.Next(ctx) {
+			// 	var note model.NoteDocument
+			// 	if err = cursor.Decode(&note); err != nil {
+			// 		logger.Logger.Errorw("ListSomething", "if err = cursor.Decode(&note); err != nil", err)
+			// 		return nil, err
+			// 	}
+			// 	notes = append(notes, note)
+			// }
+			// logger.Logger.Infow("ListSomething", "notes", notes)
+
+			// response
+			return results, nil
+		})
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }

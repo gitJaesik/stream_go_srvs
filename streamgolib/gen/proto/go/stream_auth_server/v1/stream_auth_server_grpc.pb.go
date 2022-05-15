@@ -34,6 +34,7 @@ type StreamAuthServiceClient interface {
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
 	CreatePlayerInfo(ctx context.Context, in *CreatePlayerInfoRequest, opts ...grpc.CallOption) (*CreatePlayerInfoResponse, error)
 	GetPlayerInfo(ctx context.Context, in *GetPlayerInfoRequest, opts ...grpc.CallOption) (*GetPlayerInfoResponse, error)
+	UpdatePlayer(ctx context.Context, in *GetPlayerInfoRequest, opts ...grpc.CallOption) (*GetPlayerInfoResponse, error)
 }
 
 type streamAuthServiceClient struct {
@@ -98,6 +99,15 @@ func (c *streamAuthServiceClient) GetPlayerInfo(ctx context.Context, in *GetPlay
 	return out, nil
 }
 
+func (c *streamAuthServiceClient) UpdatePlayer(ctx context.Context, in *GetPlayerInfoRequest, opts ...grpc.CallOption) (*GetPlayerInfoResponse, error) {
+	out := new(GetPlayerInfoResponse)
+	err := c.cc.Invoke(ctx, "/stream_auth_server.v1.StreamAuthService/UpdatePlayer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StreamAuthServiceServer is the server API for StreamAuthService service.
 // All implementations should embed UnimplementedStreamAuthServiceServer
 // for forward compatibility
@@ -114,6 +124,7 @@ type StreamAuthServiceServer interface {
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
 	CreatePlayerInfo(context.Context, *CreatePlayerInfoRequest) (*CreatePlayerInfoResponse, error)
 	GetPlayerInfo(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error)
+	UpdatePlayer(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error)
 }
 
 // UnimplementedStreamAuthServiceServer should be embedded to have forward compatible implementations.
@@ -137,6 +148,9 @@ func (UnimplementedStreamAuthServiceServer) CreatePlayerInfo(context.Context, *C
 }
 func (UnimplementedStreamAuthServiceServer) GetPlayerInfo(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPlayerInfo not implemented")
+}
+func (UnimplementedStreamAuthServiceServer) UpdatePlayer(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePlayer not implemented")
 }
 
 // UnsafeStreamAuthServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -258,6 +272,24 @@ func _StreamAuthService_GetPlayerInfo_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StreamAuthService_UpdatePlayer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPlayerInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StreamAuthServiceServer).UpdatePlayer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stream_auth_server.v1.StreamAuthService/UpdatePlayer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StreamAuthServiceServer).UpdatePlayer(ctx, req.(*GetPlayerInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StreamAuthService_ServiceDesc is the grpc.ServiceDesc for StreamAuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -288,6 +320,10 @@ var StreamAuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPlayerInfo",
 			Handler:    _StreamAuthService_GetPlayerInfo_Handler,
+		},
+		{
+			MethodName: "UpdatePlayer",
+			Handler:    _StreamAuthService_UpdatePlayer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -45,8 +45,8 @@ error_handle $? 'go mod vendor'
 # export STREAMGOLIB_LOG_FILENAME_LINK=/log/app.log
 
 
-echo 'GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info ./stream-auth-server-go'
-GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info ./stream-auth-server-go
+# echo 'GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info ./stream-auth-server-go'
+# GRPC_GO_LOG_VERBOSITY_LEVEL=99 GRPC_GO_LOG_SEVERITY_LEVEL=info ./stream-auth-server-go
 
-# echo './stream-auth-server-go'
-# ./stream-auth-server-go
+echo './stream-auth-server-go'
+./stream-auth-server-go

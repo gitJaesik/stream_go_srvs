@@ -16,7 +16,9 @@ type StreamGoLibDB interface {
 	ListSomething(ctx context.Context) (interface{}, error)
 	RegisterAndCheckIndexes(ctx context.Context) error
 	InsertSomething(ctx context.Context) (interface{}, error)
+	CreateEmotion(ctx context.Context, packet *pbsas.Emotion) (interface{}, error)
 	CreatePlayerInfo(ctx context.Context, packet *pbsas.CreatePlayerInfoRequest) (interface{}, error)
+	GetPlayerInfo(ctx context.Context, packet *pbsas.GetPlayerInfoRequest) (interface{}, error)
 }
 
 func GenerateSomeKey(id, someKey string, date time.Time) string {

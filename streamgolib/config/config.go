@@ -36,6 +36,7 @@ func InitializeViperConfig() *SGLConfig {
 		"MONGODB_DATABASE":             "stream",
 		"MONGODB_NOTE_COLLECTION":      "note",
 		"MONGODB_PLAYER_COLLECTION":    "player",
+		"MONGODB_EMOTION_COLLECTION":   "emotion",
 		"MONGODB_VOICENOTE_COLLECTION": "voicenote",
 		"MONGODB_USER_COLLECTION":      "user",
 		"CRON_SECONDS":                 "30",
@@ -70,6 +71,7 @@ func InitializeViperConfig() *SGLConfig {
 		"MONGODB_VOICENOTE_COLLECTION",
 		"MONGODB_NOTE_COLLECTION",
 		"MONGODB_PLAYER_COLLECTION",
+		"MONGODB_EMOTION_COLLECTION",
 		"MONGODB_USER_COLLECTION",
 		"CRON_SECONDS",
 		"GOOGLE_STT_IP",
@@ -145,6 +147,11 @@ func (s *SGLConfig) GetMongoNoteCollection() string {
 // GetMongoPlayerCollection ...
 func (s *SGLConfig) GetMongoPlayerCollection() string {
 	return s.values["MONGODB_PLAYER_COLLECTION"]
+}
+
+// GetMongoEmotionCollection ...
+func (s *SGLConfig) GetMongoEmotionCollection() string {
+	return s.values["MONGODB_EMOTION_COLLECTION"]
 }
 
 // GetMongoUserCollection ...
@@ -297,6 +304,11 @@ func GetMongoNoteCollection() string {
 // GetMongoPlayerCollection ...
 func GetMongoPlayerCollection() string {
 	return SglConfig.values["MONGODB_PLAYER_COLLECTION"]
+}
+
+// GetMongoEmotionCollection ...
+func GetMongoEmotionCollection() string {
+	return SglConfig.values["MONGODB_EMOTION_COLLECTION"]
 }
 
 // GetMongoUserCollection ...

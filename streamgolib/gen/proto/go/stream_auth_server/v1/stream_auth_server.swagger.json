@@ -78,6 +78,38 @@
         ]
       }
     },
+    "/v1/playerinfo/update": {
+      "post": {
+        "operationId": "StreamAuthService_UpdatePlayer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetPlayerInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1GetPlayerInfoRequest"
+            }
+          }
+        ],
+        "tags": [
+          "StreamAuthService"
+        ]
+      }
+    },
     "/v1/playerinfo/{userId}": {
       "get": {
         "operationId": "StreamAuthService_GetPlayerInfo",
@@ -155,7 +187,8 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "integer",
+          "format": "int32"
         },
         "nickName": {
           "type": "string"
@@ -242,6 +275,14 @@
       "type": "object",
       "properties": {
         "message": {
+          "type": "string"
+        }
+      }
+    },
+    "v1GetPlayerInfoRequest": {
+      "type": "object",
+      "properties": {
+        "userId": {
           "type": "string"
         }
       }

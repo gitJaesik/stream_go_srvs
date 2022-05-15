@@ -35,7 +35,7 @@ message SignUpResponse {
 }
 
 message CreatePlayerInfoRequest {
-  string id = 1;
+  int32 id = 1;
   string nickName = 2;
   int32 playerLevel = 3;
   string tier = 4;
@@ -85,6 +85,15 @@ message GetPlayerInfoResponse {
   google.protobuf.Timestamp updated_at = 18;
 }
 
+message Emotion {
+  string id = 1;
+  string name = 2;
+  int32 emotionId = 3;
+  string description = 4;
+  int32 purchaseGold = 5;
+  int32 purchaseJewel = 6;
+}
+
 // grpc-gateway reference annotation
 // https://github.com/googleapis/googleapis/blob/master/google/api/http.proto
 
@@ -115,5 +124,28 @@ service StreamAuthService {
       get: "/v1/playerinfo/{user_id}"
     };
   }
+  rpc UpdatePlayer(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
+    option (google.api.http) = {
+      post: "/v1/playerinfo/update"
+      body: "*"
+    };
+  }
+  // rpc GetPlayerList(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
+  //   option (google.api.http) = {
+  //     get: "/v1/playerinfo/{user_id}"
+  //   };
+  // }
+
+  // rpc GetDiceInfo(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
+  //   option (google.api.http) = {
+  //     get: "/v1/dice/{dice_id}"
+  //   };
+  // }
+
+  // rpc GetDiceList(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
+  //   option (google.api.http) = {
+  //     get: "/v1/dice/{dice_id}"
+  //   };
+  // }
 
 }

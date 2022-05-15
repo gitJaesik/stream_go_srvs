@@ -9,6 +9,7 @@ import (
 type PlayerInfoDocument struct {
 	ID             primitive.ObjectID   `bson:"_id"`
 	NickName       string               `bson:"nickName" validate:"required,min=2,max=20"`
+	PlayerId       int32                `bson:"playerId"`
 	PlayerLevel    int32                `bson:"playerLevel"`
 	Tier           string               `bson:"tier"`
 	WinningRate    float32              `bson:"winningRate"`
