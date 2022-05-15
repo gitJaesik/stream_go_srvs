@@ -1,0 +1,7 @@
+
+use('stream');
+
+db.note.drop();
+db.user.drop();
+db.player.drop();
+db.emotion.drop();
