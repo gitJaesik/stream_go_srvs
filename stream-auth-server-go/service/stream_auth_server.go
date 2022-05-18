@@ -113,11 +113,5 @@ func (sas *streamAuthServer) GetPlayerInfo(c context.Context, gpir *pbsas.GetPla
 	*/
 
 	// return &pbsas.GetPlayerInfoResponse{}, nil
-	return &pbsas.GetPlayerInfoResponse{
-		PlayerId:    1,
-		NickName:    "당미",
-		PlayerLevel: 123,
-		Tier:        "골드",
-		WinningRate: 50.1,
-	}, nil
+	return mongoResponse.(*pbsas.GetPlayerInfoResponse), nil
 }

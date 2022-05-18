@@ -3,7 +3,6 @@ package mongodb
 import (
 	"context"
 	"errors"
-	"fmt"
 	"strconv"
 	"sync"
 	"time"
@@ -328,6 +327,7 @@ func (mc *MongoDBClient) CreatePlayerInfo(ctx context.Context, packet *pbsas.Cre
 				OwningGold:     packet.OwningGold,
 				OwningBox:      packet.OwningBox,
 				OwningMap:      packet.OwningMap,
+				OwningEmoticon: packet.OwningEmoticon,
 				DailyGoldLevel: packet.DailyGoldLevel,
 			}
 			insertOption := options.InsertOne()
@@ -377,23 +377,48 @@ func (mc *MongoDBClient) GetPlayerInfo(ctx context.Context, packet *pbsas.GetPla
 			*/
 			// cursor, err := playerCollection.Find(ctx, bson.M{})
 			// ret := playerCollection.FindOne(ctx, bson.M{"playerId", 1})
-			var results bson.M
+			// var results bson.M
+			var playerInfoDoc model.PlayerInfoDocument
 			// matchStage := bson.D{{"$match", bson.D{{"podcast", id}}}}
 			// groupStage := bson.D{{"$group", bson.D{{"_id", "$podcast"}, {"total", bson.D{{"$sum", "$duration"}}}}}}
 
 			// err := playerCollection.FindOne(ctx, bson.M{"playerId": packet.PlayerId}).Decode(&results)
 			// err := playerCollection.FindOne(ctx, bson.D{{"playerId", bson.D{{"$eq", packet.PlayerId}}}}).Decode(&results)
 
-			logger.Logger.Infow("GetPlayerInfo", "playerId", packet.PlayerId)
-
-			err := playerCollection.FindOne(ctx, bson.D{{"playerId", packet.PlayerId}}).Decode(&results)
+			err := playerCollection.FindOne(ctx, bson.D{{"playerId", packet.PlayerId}}).Decode(&playerInfoDoc)
 			// err := playerCollection.FindOne(ctx, bson.D{{"playerId": packet.PlayerId}}).Decode(&results)
 			if err != nil {
 				logger.Logger.Errorw("GetPlayerInfo", "error", err)
 				return nil, err
 			}
+
+			logger.Logger.Infow("GetPlayerInfo", "playerInfoDoc", playerInfoDoc)
+
+			// packet *pbsas.GetPlayerInfoRequest
+
+			response := &pbsas.GetPlayerInfoResponse{
+				NickName:       playerInfoDoc.NickName,
+				PlayerId:       playerInfoDoc.PlayerId,
+				PlayerLevel:    playerInfoDoc.PlayerLevel,
+				Tier:           playerInfoDoc.Tier,
+				WinningRate:    playerInfoDoc.WinningRate,
+				VictoryCount:   playerInfoDoc.VictoryCount,
+				DefeatCount:    playerInfoDoc.DefeatCount,
+				MaxWave:        playerInfoDoc.MaxWave,
+				TrophyCount:    playerInfoDoc.TrophyCount,
+				OwningJewel:    playerInfoDoc.OwningJewel,
+				OwningGold:     playerInfoDoc.OwningGold,
+				OwningBox:      playerInfoDoc.OwningBox,
+				OwningMap:      playerInfoDoc.OwningMap,
+				OwningEmoticon: playerInfoDoc.OwningEmoticon,
+				// OwningDice:     playerInfoDoc.OwningDice,
+				DailyGoldLevel: playerInfoDoc.DailyGoldLevel,
+				// CreatedAt:      playerInfoDoc.CreatedAt,
+				// UpdatedAt:      playerInfoDoc.UpdatedAt,
+			}
+
 			// you can print out the results
-			fmt.Println(results)
+			// fmt.Println(results)
 			// if err != nil {
 			// 	logger.Logger.Errorw("ListSomething", "find note collection error", err)
 			// 	return nil, err
@@ -414,7 +439,7 @@ func (mc *MongoDBClient) GetPlayerInfo(ctx context.Context, packet *pbsas.GetPla
 			// logger.Logger.Infow("ListSomething", "notes", notes)
 
 			// response
-			return results, nil
+			return response, nil
 		})
 	if err != nil {
 		return nil, err
