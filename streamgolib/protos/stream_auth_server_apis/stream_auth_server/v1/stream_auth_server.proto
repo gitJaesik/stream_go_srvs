@@ -126,10 +126,17 @@ service StreamAuthService {
   }
   rpc UpdatePlayer(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
     option (google.api.http) = {
-      post: "/v1/playerinfo/update"
+      post: "/v1/playerinfo/update/{user_id}"
       body: "*"
     };
   }
+  rpc DeletePlayer(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
+    option (google.api.http) = {
+      post: "/v1/playerinfo/delete/{user_id}"
+      body: "*"
+    };
+  }
+
   // rpc GetPlayerList(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
   //   option (google.api.http) = {
   //     get: "/v1/playerinfo/{user_id}"

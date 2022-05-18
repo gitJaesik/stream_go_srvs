@@ -12,6 +12,7 @@ import (
 )
 
 type StreamGoLibDB interface {
+	DropAll(ctx context.Context) error
 	MongoPing(ctx context.Context) error
 	ListSomething(ctx context.Context) (interface{}, error)
 	RegisterAndCheckIndexes(ctx context.Context) error

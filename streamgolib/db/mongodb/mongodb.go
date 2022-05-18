@@ -62,6 +62,42 @@ func NewMongoDB() db.StreamGoLibDB {
 	return mdbClient
 }
 
+// DropAll ...
+func (mc *MongoDBClient) DropAll(ctx context.Context) error {
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(config.SglConfig.GetMongoUri()))
+	if err != nil {
+		logger.Logger.Errorw("DropAll", "mongo connect error", err)
+		return err
+	}
+
+	defer func() {
+		if err = client.Disconnect(ctx); err != nil {
+			panic(err)
+		}
+	}()
+
+	logger.Logger.Infow("DropAll", "client", client)
+	dbName := config.SglConfig.GetMongoDatabase()
+	logger.Logger.Infow("DropAll", "dbName", dbName)
+	database := client.Database(dbName)
+	logger.Logger.Infow("DropAll", "database", database)
+	collections, err := database.ListCollectionNames(ctx, bson.M{}, nil)
+	logger.Logger.Infow("DropAll", "collections", collections)
+	for _, collection := range collections {
+		logger.Logger.Infow("DropAll", "current collection", collection)
+		if err := database.Collection(collection).Drop(ctx); err != nil {
+			logger.Logger.Errorw("DropAll", collection, err)
+			return err
+		}
+	}
+	// if err := database.Drop(ctx); err != nil {
+	// 	logger.Logger.Errorw("DropAll", "mongo drop error", err)
+	// 	return err
+	// }
+	logger.Logger.Infow("DropAll", "drop collections success", "Successfully drops all collection")
+	return nil
+}
+
 // MongoPing ...
 func (mc *MongoDBClient) MongoPing(ctx context.Context) error {
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(config.SglConfig.GetMongoUri()))
@@ -277,6 +313,7 @@ func (mc *MongoDBClient) CreatePlayerInfo(ctx context.Context, packet *pbsas.Cre
 
 			now := time.Now()
 
+			// https://www.mongodb.com/basics/mongodb-auto-increment#:~:text=Although%20MongoDB%20does%20not%20support,the%20current%20unique%20identifier%20value.
 			player := model.PlayerInfoDocument{
 				ID:             primitive.NewObjectID(),
 				PlayerId:       packet.Id,

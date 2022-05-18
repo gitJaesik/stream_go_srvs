@@ -12,9 +12,29 @@ import (
 func init() {
 }
 
-// var emotionObject primitive.ObjectID
+// var emotions []primitive.ObjectID
+var emotions []int
 
 // Add remote all mongodb
+
+// TestDropAll ...
+func TestDropAll(t *testing.T) {
+	sglMongoDb := NewMongoDB()
+	if err := sglMongoDb.DropAll(context.Background()); err != nil {
+		t.Fatalf(`drop all error :%q`, err)
+		panic(err)
+	}
+	t.Log("mongodb drop collections success")
+}
+
+/*
+// TestPanicEmotion ...
+func TestPanicTest(t *testing.T) {
+	logger.Logger.Infow("TestPanicEmotion", "emotions", emotions)
+	err := errors.New("test end")
+	panic(err)
+}
+*/
 
 // TestCreateIndex ...
 func TestCreateIndex(t *testing.T) {
@@ -65,8 +85,18 @@ func TestCreateEmotionDocOne(t *testing.T) {
 	if err != nil {
 		t.Fatalf(`TestCreateEmotionDocOne error %v`, err)
 	}
+
+	// objectid object id
+	// emotions = append(emotions, ret.(*mongo.InsertOneResult).InsertedID.(primitive.ObjectID))
 	logger.Logger.Infow("TestCreateEmotionDocOne ", "ret", ret)
 }
+
+// // TestPanicEmotion ...
+// func TestPanicEmotion(t *testing.T) {
+// 	logger.Logger.Infow("TestPanicEmotion", "emotions", emotions)
+// 	err := errors.New("test end")
+// 	panic(err)
+// }
 
 // TestCreateEmotionDocTwo ...
 func TestCreateEmotionDocTwo(t *testing.T) {
@@ -158,7 +188,7 @@ func TestCreatePlayerInfoEmptyDoc(t *testing.T) {
 		TrophyCount:    30,
 		OwningJewel:    300,
 		OwningGold:     100,
-		OwningEmoticon: []int32{1},
+		OwningEmoticon: []int32{1, 2, 3, 4, 5},
 	})
 	if err != nil {
 		t.Fatalf(`CreatePlayerInfo error %v`, err)
