@@ -78,7 +78,46 @@
         ]
       }
     },
-    "/v1/playerinfo/update": {
+    "/v1/playerinfo/delete/{playerId}": {
+      "post": {
+        "operationId": "StreamAuthService_DeletePlayer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetPlayerInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "playerId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "tags": [
+          "StreamAuthService"
+        ]
+      }
+    },
+    "/v1/playerinfo/update/{playerId}": {
       "post": {
         "operationId": "StreamAuthService_UpdatePlayer",
         "responses": {
@@ -97,11 +136,18 @@
         },
         "parameters": [
           {
+            "name": "playerId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1GetPlayerInfoRequest"
+              "type": "object"
             }
           }
         ],
@@ -110,7 +156,7 @@
         ]
       }
     },
-    "/v1/playerinfo/{userId}": {
+    "/v1/playerinfo/{playerId}": {
       "get": {
         "operationId": "StreamAuthService_GetPlayerInfo",
         "responses": {
@@ -129,10 +175,11 @@
         },
         "parameters": [
           {
-            "name": "userId",
+            "name": "playerId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "tags": [
@@ -266,7 +313,7 @@
     "v1CreatePlayerInfoResponse": {
       "type": "object",
       "properties": {
-        "userId": {
+        "playerId": {
           "type": "string"
         }
       }
@@ -279,19 +326,12 @@
         }
       }
     },
-    "v1GetPlayerInfoRequest": {
-      "type": "object",
-      "properties": {
-        "userId": {
-          "type": "string"
-        }
-      }
-    },
     "v1GetPlayerInfoResponse": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
+        "playerId": {
+          "type": "integer",
+          "format": "int32"
         },
         "nickName": {
           "type": "string"

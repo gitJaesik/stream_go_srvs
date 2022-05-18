@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"regexp"
 
@@ -73,7 +72,7 @@ func (sas *streamAuthServer) SignUp(c context.Context, sir *pbsas.SignUpRequest)
 
 func (sas *streamAuthServer) GetPlayerInfo(c context.Context, gpir *pbsas.GetPlayerInfoRequest) (*pbsas.GetPlayerInfoResponse, error) {
 	// str := fmt.Sprintf("Get value: (%q)\n", gpir.UserId)
-	logger.Logger.Infow("GetPlayerInfo", "received user_id", gpir.UserId)
+	logger.Logger.Infow("GetPlayerInfo", "received user_id", gpir.PlayerId)
 
 	/*
 		p, ok := peer.FromContext(c)
@@ -84,12 +83,11 @@ func (sas *streamAuthServer) GetPlayerInfo(c context.Context, gpir *pbsas.GetPla
 	*/
 
 	validate := func() error {
-		if gpir.UserId == "" {
-
-			// TODO: do not use magic var
-			err := errors.New("INVALID_PARAMETERS_EMPTY_PACKET")
-			return err
-		}
+		// if gpir.PlayerId == 0 {
+		// 	// TODO: do not use magic var
+		// 	err := errors.New("INVALID_PARAMETERS_EMPTY_PACKET")
+		// 	return err
+		// }
 		return nil
 	}
 
@@ -103,7 +101,7 @@ func (sas *streamAuthServer) GetPlayerInfo(c context.Context, gpir *pbsas.GetPla
 	//  return nil, responseErr
 	// }
 
-	mongoResponse, mongoErr := sas.mongoDb.GetPlayerInfo(c, &pbsas.GetPlayerInfoRequest{})
+	mongoResponse, mongoErr := sas.mongoDb.GetPlayerInfo(c, gpir)
 	if mongoErr != nil {
 		return nil, mongoErr
 	}
@@ -116,7 +114,7 @@ func (sas *streamAuthServer) GetPlayerInfo(c context.Context, gpir *pbsas.GetPla
 
 	// return &pbsas.GetPlayerInfoResponse{}, nil
 	return &pbsas.GetPlayerInfoResponse{
-		Id:          gpir.UserId,
+		PlayerId:    1,
 		NickName:    "당미",
 		PlayerLevel: 123,
 		Tier:        "골드",

@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"strconv"
 	"sync"
 	"time"
@@ -354,6 +353,7 @@ func (mc *MongoDBClient) CreatePlayerInfo(ctx context.Context, packet *pbsas.Cre
 // https://www.mongodb.com/blog/post/quick-start-golang--mongodb--data-aggregation-pipeline
 // https://www.mongodb.com/blog/post/quick-start-golang--mongodb--modeling-documents-with-go-data-structures
 // https://www.mongodb.com/blog/post/mongodb-go-driver-updated-to-version-104
+// https://www.mongodb.com/docs/drivers/go/v1.8/fundamentals/crud/query-document/
 
 // GetPlayerInfo ...
 func (mc *MongoDBClient) GetPlayerInfo(ctx context.Context, packet *pbsas.GetPlayerInfoRequest) (interface{}, error) {
@@ -364,23 +364,33 @@ func (mc *MongoDBClient) GetPlayerInfo(ctx context.Context, packet *pbsas.GetPla
 			playerCollection := database.Collection(config.SglConfig.GetMongoPlayerCollection())
 
 			/*
-								if err := connection.collection.FindOne(ctx, bson.M{"name": recipeName}).Decode(&recipe); err != nil {
-									return alexa.Response{}, err
-								}
-								  var results bson.M
-				    err := fsFiles.FindOne(ctx, bson.M{}).Decode(&results)
-				    if err != nil {
-				        log.Fatal(err)
-				    }
-				    // you can print out the results
-				    fmt.Println(results)
+				if err := connection.collection.FindOne(ctx, bson.M{"name": recipeName}).Decode(&recipe); err != nil {
+					return alexa.Response{}, err
+				}
+				var results bson.M
+				err := fsFiles.FindOne(ctx, bson.M{}).Decode(&results)
+				if err != nil {
+					log.Fatal(err)
+				}
+				// you can print out the results
+				fmt.Println(results)
 			*/
 			// cursor, err := playerCollection.Find(ctx, bson.M{})
 			// ret := playerCollection.FindOne(ctx, bson.M{"playerId", 1})
 			var results bson.M
-			err := playerCollection.FindOne(ctx, bson.M{}).Decode(&results)
+			// matchStage := bson.D{{"$match", bson.D{{"podcast", id}}}}
+			// groupStage := bson.D{{"$group", bson.D{{"_id", "$podcast"}, {"total", bson.D{{"$sum", "$duration"}}}}}}
+
+			// err := playerCollection.FindOne(ctx, bson.M{"playerId": packet.PlayerId}).Decode(&results)
+			// err := playerCollection.FindOne(ctx, bson.D{{"playerId", bson.D{{"$eq", packet.PlayerId}}}}).Decode(&results)
+
+			logger.Logger.Infow("GetPlayerInfo", "playerId", packet.PlayerId)
+
+			err := playerCollection.FindOne(ctx, bson.D{{"playerId", packet.PlayerId}}).Decode(&results)
+			// err := playerCollection.FindOne(ctx, bson.D{{"playerId": packet.PlayerId}}).Decode(&results)
 			if err != nil {
-				log.Fatal(err)
+				logger.Logger.Errorw("GetPlayerInfo", "error", err)
+				return nil, err
 			}
 			// you can print out the results
 			fmt.Println(results)

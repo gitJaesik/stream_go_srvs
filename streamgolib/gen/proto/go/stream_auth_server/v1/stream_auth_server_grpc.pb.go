@@ -35,6 +35,7 @@ type StreamAuthServiceClient interface {
 	CreatePlayerInfo(ctx context.Context, in *CreatePlayerInfoRequest, opts ...grpc.CallOption) (*CreatePlayerInfoResponse, error)
 	GetPlayerInfo(ctx context.Context, in *GetPlayerInfoRequest, opts ...grpc.CallOption) (*GetPlayerInfoResponse, error)
 	UpdatePlayer(ctx context.Context, in *GetPlayerInfoRequest, opts ...grpc.CallOption) (*GetPlayerInfoResponse, error)
+	DeletePlayer(ctx context.Context, in *GetPlayerInfoRequest, opts ...grpc.CallOption) (*GetPlayerInfoResponse, error)
 }
 
 type streamAuthServiceClient struct {
@@ -108,6 +109,15 @@ func (c *streamAuthServiceClient) UpdatePlayer(ctx context.Context, in *GetPlaye
 	return out, nil
 }
 
+func (c *streamAuthServiceClient) DeletePlayer(ctx context.Context, in *GetPlayerInfoRequest, opts ...grpc.CallOption) (*GetPlayerInfoResponse, error) {
+	out := new(GetPlayerInfoResponse)
+	err := c.cc.Invoke(ctx, "/stream_auth_server.v1.StreamAuthService/DeletePlayer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StreamAuthServiceServer is the server API for StreamAuthService service.
 // All implementations should embed UnimplementedStreamAuthServiceServer
 // for forward compatibility
@@ -125,6 +135,7 @@ type StreamAuthServiceServer interface {
 	CreatePlayerInfo(context.Context, *CreatePlayerInfoRequest) (*CreatePlayerInfoResponse, error)
 	GetPlayerInfo(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error)
 	UpdatePlayer(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error)
+	DeletePlayer(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error)
 }
 
 // UnimplementedStreamAuthServiceServer should be embedded to have forward compatible implementations.
@@ -151,6 +162,9 @@ func (UnimplementedStreamAuthServiceServer) GetPlayerInfo(context.Context, *GetP
 }
 func (UnimplementedStreamAuthServiceServer) UpdatePlayer(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePlayer not implemented")
+}
+func (UnimplementedStreamAuthServiceServer) DeletePlayer(context.Context, *GetPlayerInfoRequest) (*GetPlayerInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePlayer not implemented")
 }
 
 // UnsafeStreamAuthServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -290,6 +304,24 @@ func _StreamAuthService_UpdatePlayer_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StreamAuthService_DeletePlayer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPlayerInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StreamAuthServiceServer).DeletePlayer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stream_auth_server.v1.StreamAuthService/DeletePlayer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StreamAuthServiceServer).DeletePlayer(ctx, req.(*GetPlayerInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StreamAuthService_ServiceDesc is the grpc.ServiceDesc for StreamAuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -324,6 +356,10 @@ var StreamAuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdatePlayer",
 			Handler:    _StreamAuthService_UpdatePlayer_Handler,
+		},
+		{
+			MethodName: "DeletePlayer",
+			Handler:    _StreamAuthService_DeletePlayer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

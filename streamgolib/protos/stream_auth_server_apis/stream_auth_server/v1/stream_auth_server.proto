@@ -36,51 +36,52 @@ message SignUpResponse {
 
 message CreatePlayerInfoRequest {
   int32 id = 1;
-  string nickName = 2;
-  int32 playerLevel = 3;
+  string nick_name = 2;
+  int32 player_level = 3;
   string tier = 4;
-  float winningRate = 5;
-  int32 victoryCount = 6;
-  int32 defeatCount = 7;
-  int32 maxWave = 8;
-  int32 trophyCount = 9;
-  int32 owningJewel = 10;
-  int32 owningGold  = 11;
-  int32 owningBox  = 12;
-  int32 owningMap  = 13;
-  repeated int32 owningEmoticon = 14;
-  repeated string owningDice = 15;
-  int32 dailyGoldLevel  = 16;
+  float winning_rate = 5;
+  int32 victory_count = 6;
+  int32 defeat_count = 7;
+  int32 max_wave = 8;
+  int32 trophy_count = 9;
+  int32 owning_jewel = 10;
+  int32 owning_gold  = 11;
+  int32 owning_box  = 12;
+  int32 owning_map  = 13;
+  repeated int32 owning_emoticon = 14;
+  repeated string owning_dice = 15;
+  int32 daily_gold_level  = 16;
   google.protobuf.Timestamp created_at = 17;
   google.protobuf.Timestamp updated_at = 18;
 }
 message CreatePlayerInfoResponse {
-  string user_id = 1;
+  string player_id = 1;
   // string username = 2;
 }
 
 
 message GetPlayerInfoRequest {
-  string user_id = 1;
+  int32 player_id = 1;
+  // string player_id = 1;
   // string username = 2;
 }
 message GetPlayerInfoResponse {
-  string id = 1;
-  string nickName = 2;
-  int32 playerLevel = 3;
+  int32 player_id = 1;
+  string nick_name = 2;
+  int32 player_level = 3;
   string tier = 4;
-  float winningRate = 5;
-  int32 victoryCount = 6;
-  int32 defeatCount = 7;
-  int32 maxWave = 8;
-  int32 trophyCount = 9;
-  int32 owningJewel = 10;
-  int32 owningGold  = 11;
-  int32 owningBox  = 12;
-  int32 owningMap  = 13;
-  repeated int32 owningEmoticon = 14;
-  repeated string owningDice = 15;
-  int32 dailyGoldLevel  = 16;
+  float winning_rate = 5;
+  int32 victory_count = 6;
+  int32 defeat_count = 7;
+  int32 max_wave = 8;
+  int32 trophy_count = 9;
+  int32 owning_jewel = 10;
+  int32 owning_gold  = 11;
+  int32 owning_box  = 12;
+  int32 owning_map  = 13;
+  repeated int32 owning_emoticon = 14;
+  repeated string owning_dice = 15;
+  int32 daily_gold_level  = 16;
   google.protobuf.Timestamp created_at = 17;
   google.protobuf.Timestamp updated_at = 18;
 }
@@ -88,10 +89,10 @@ message GetPlayerInfoResponse {
 message Emotion {
   string id = 1;
   string name = 2;
-  int32 emotionId = 3;
+  int32 emotion_id = 3;
   string description = 4;
-  int32 purchaseGold = 5;
-  int32 purchaseJewel = 6;
+  int32 purchase_gold = 5;
+  int32 purchase_jewel = 6;
 }
 
 // grpc-gateway reference annotation
@@ -121,25 +122,25 @@ service StreamAuthService {
   }
   rpc GetPlayerInfo(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
     option (google.api.http) = {
-      get: "/v1/playerinfo/{user_id}"
+      get: "/v1/playerinfo/{player_id}"
     };
   }
   rpc UpdatePlayer(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
     option (google.api.http) = {
-      post: "/v1/playerinfo/update/{user_id}"
+      post: "/v1/playerinfo/update/{player_id}"
       body: "*"
     };
   }
   rpc DeletePlayer(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
     option (google.api.http) = {
-      post: "/v1/playerinfo/delete/{user_id}"
+      post: "/v1/playerinfo/delete/{player_id}"
       body: "*"
     };
   }
 
   // rpc GetPlayerList(GetPlayerInfoRequest) returns (GetPlayerInfoResponse) {
   //   option (google.api.http) = {
-  //     get: "/v1/playerinfo/{user_id}"
+  //     get: "/v1/playerinfo/{player_id}"
   //   };
   // }
 
