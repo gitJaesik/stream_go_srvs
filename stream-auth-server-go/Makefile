@@ -70,6 +70,10 @@ build_local: ## build_local server
 	@echo "build local server"
 	@./run_build_local.sh
 
+build_docker: ## build_docker server
+	@echo "build docker server"
+	@./run_dockerizing.sh
+
 start_all: ## start_all
 	@echo "start_all"
 	@scripts/start_all.sh

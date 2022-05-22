@@ -44,6 +44,8 @@ services:
     image: gitjaesik/stream-auth-server
     ports:
       - "8280:8280"
+      - "8281:8281"
+      - "8282:8282"
     networks:
       - stream_network
     hostname: stream-auth-server

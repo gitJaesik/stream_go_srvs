@@ -38,3 +38,6 @@ stream-auth-server-go/stream-auth-server-go
 grpc_secure_unary_echo
 grpc_unary_echo
 
+dist/
+# TODO: vendor should be selected?
+vendor/

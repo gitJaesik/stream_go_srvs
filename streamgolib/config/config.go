@@ -32,6 +32,8 @@ func InitializeViperConfig() *SGLConfig {
 
 	defaultEnvs := map[string]string{
 		// "MONGODB_URI": "mongodb://mongodb:27017",
+		// "MONGODB_URI":                  "mongodb+srv://root:<password>@cluster0.ysile.mongodb.net/?retryWrites=true&w=majority",
+		// "MONGODB_URI":                  "mongodb+srv://root:<password>@cluster0.ysile.mongodb.net/?retryWrites=true&w=majority&tlsInsecure=true",
 		"MONGODB_URI":                  "mongodb://0.0.0.0:27017",
 		"MONGODB_DATABASE":             "stream",
 		"MONGODB_NOTE_COLLECTION":      "note",
